@@ -1,43 +1,64 @@
-﻿using System;
+﻿/*
+ * This program returns the Symmetric difference of  two given sets 
+ */
+
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FindTheSymmetricDifference
 {
     internal class Program
     {
-        private static readonly int[] Seta  = {1, 2, 3};
-        private static readonly int[] Setb = { 5, 2, 1, 4 };
-
+        
         public static void Main(string[] args)
         {
-
-            HashSet<int> resultSet = CheckDifference(Seta, Setb);
-            
-            PrintResultSet(resultSet);
-            
+            Console.Write("Please Enter a set of numbers: ");
+            string setAString = Console.ReadLine();
+            Console.Write("Please Enter a second set of numbers: ");
+            string setBString = Console.ReadLine();
+            PrintSymmetricDifferenceSet(SymmetircDifference(CreateSet(setAString), CreateSet(setBString)));
         }
 
         #region static methods
 
-        private static HashSet<int> CheckDifference(int[] seta, int[] setb)
+        private static HashSet<int> CreateSet(string intputSet)
+        {
+            HashSet<int> resultedSet = new HashSet<int>();
+
+            foreach (var element in intputSet)
+            {
+                resultedSet.Add(Convert.ToInt32(element.ToString()));
+            }
+
+            return resultedSet;
+        }
+
+        /// <summary>
+        /// Checks the symmetric difference of the two sets give as arguments
+        /// </summary>
+        /// <param name="seta"></param>
+        /// <param name="setb"></param>
+        /// <returns></returns>
+        private static HashSet<int> SymmetircDifference(HashSet<int> seta, 
+            HashSet<int> setb)
         {
 
             HashSet<int> resultSet = new HashSet<int>();
             
             //Check if  SetA does not contain elements of SetB
-            foreach (var item in Setb)
+            foreach (var item in setb)
             {
-                if (!Seta.Contains(item))
+                if (!seta.Contains(item))
                 {
                     resultSet.Add(item);
                 }
             }
 
             //Checls if SetB does not contain elements of SetB
-            foreach (var item in Seta)
+            foreach (var item in seta)
             {
-                if (!Setb.Contains(item))
+                if (!setb.Contains(item))
                 {
                     resultSet.Add(item);
                 }
@@ -46,12 +67,37 @@ namespace FindTheSymmetricDifference
             return resultSet;
         }
 
-        private static void PrintResultSet(HashSet<int> resultSet)
+        /// <summary>
+        /// Prints the resulted set
+        /// </summary>
+        /// <param name="resultSet">the set to be printed</param>
+        private static void PrintSymmetricDifferenceSet(HashSet<int> resultSet)
         {
-            foreach (var item in resultSet)
+
+            //Perhaps there is a better way to sort the set.
+            SortedSet<int> sortedSet = new SortedSet<int>();
+            foreach (var elem in resultSet)
+            {
+                sortedSet.Add(elem);
+            }
+            
+            Console.Write("The resulted set is: ");
+            foreach (var item in sortedSet)
             {
                 Console.Write($" {item.ToString()}");
             }
+            
+            Console.WriteLine();
+        }
+
+        private static void PrintSet(HashSet<int> set, char setRank)
+        {
+            Console.Write($"Set{setRank.ToString()} is: ");
+            foreach (var elem in set)
+            {
+                Console.Write(elem);
+            }
+            Console.WriteLine();
         }
         
         
