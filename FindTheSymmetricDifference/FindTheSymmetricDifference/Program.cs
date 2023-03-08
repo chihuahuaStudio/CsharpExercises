@@ -1,5 +1,6 @@
 ﻿/*
- * This program returns the Symmetric difference of  two given sets 
+ * This program returns the Symmetric difference of  two given sets
+ * Might add menu and mor set operations
  */
 
 
@@ -10,9 +11,12 @@ namespace FindTheSymmetricDifference
 {
     internal class Program
     {
+        // TODO Add menu
+        // TODO Add more set operations
         
         public static void Main(string[] args)
         {
+            Console.WriteLine("This programs calculates the Symmetric difference between two sets");
             Console.Write("Please Enter a set of numbers: ");
             string setAString = Console.ReadLine();
             Console.Write("Please Enter a second set of numbers: ");
