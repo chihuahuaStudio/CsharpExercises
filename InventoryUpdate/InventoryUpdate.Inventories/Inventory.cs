@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InventoryUpdate.Item;
+using InventoryUpdate.Utilities;
 
 namespace InventoryUpdate.Inventories
 {
     
     public class Inventory
     {
-        public List<Items> InventoryList { get; }
+        public List<Items> InventoryList { get; set;}
 
+        
         public Inventory(List<Items> inventoryList)
         {
             InventoryList = inventoryList;
         }
+        
         
         /// <summary>
         /// Updates the Items of a current Inventory from a new Inventory
@@ -21,33 +24,33 @@ namespace InventoryUpdate.Inventories
         /// <param name="currentInventory">The inventory to update</param>
         /// <param name="newInventory">The new inventory</param>
         /// <returns>The updated inventory</returns>
-        public static Inventory UpdateInventory(Inventory currentInventory, 
+        public static void UpdateInventory(ref Inventory currentInventory, 
             Inventory newInventory)
         {
             
-            foreach (var product in newInventory.InventoryList)
+            foreach (var newItem in newInventory.InventoryList)
             {
-                if (!currentInventory.InventoryList.Contains(product))
+                if (currentInventory.InventoryList.Contains(newItem))
                 {
-                    currentInventory.InventoryList.Add(product);
+                    int indexOfNewProduct = 
+                        currentInventory.InventoryList.IndexOf(newItem);
+                    currentInventory.InventoryList[indexOfNewProduct].Quantity +=
+                        newItem.Quantity;
                 }
-                else if (currentInventory.InventoryList.Contains(product))
+                else
                 {
-                    int productIndex = currentInventory.InventoryList.IndexOf(product);
-                    currentInventory.InventoryList[productIndex].Quantity++;
+                    currentInventory.InventoryList.Add(newItem);
                 }
             }
+            
 
-            Inventory updatedInventory = currentInventory;
-
-            return updatedInventory;
         }
         
         
         /// <summary>
         /// Prints the inventory sorted alphabetically
         /// </summary>
-        /// <param name="updatedInventory">The updated inventory toprint</param>
+        /// <param name="updatedInventory">The updated inventory to print</param>
         public static void PrintInventoryByProduct(Inventory updatedInventory)
         {
             IEnumerable<Items> itemsEnumerable = 
@@ -57,8 +60,37 @@ namespace InventoryUpdate.Inventories
             {
                 Console.WriteLine(product);
             }
+
+            // foreach (var item in updatedInventory.InventoryList)
+            // {
+            //     Console.WriteLine(item);
+            // }
         }
-        
-        
+
+        /// <summary>
+        /// Generates a random inventory without product duplicates
+        /// </summary>
+        /// <returns>The newly generated Inventory</returns>
+        public static Inventory GenerateInventory()
+        {
+            List<int> itemTypeRandomValueList = new List<int>();
+            List<Items> productList = new List<Items>();
+
+            Random randomQuantity = new Random();
+            itemTypeRandomValueList = Tools.GenerateRandomNumberList();
+
+
+            foreach (var typeValue in itemTypeRandomValueList)
+            {
+                Items item = new Items((ItemType)typeValue, randomQuantity.Next(1, 20));
+                productList.Add(item);
+            }
+
+            Inventory generatedInvetory = new Inventory(productList);
+
+            return generatedInvetory;
+        }
+
+
     }
 }

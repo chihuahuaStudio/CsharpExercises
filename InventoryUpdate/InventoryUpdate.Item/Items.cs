@@ -1,12 +1,14 @@
+using System;
+
 namespace InventoryUpdate.Item
 {
 
-    public class Items
+    public class Items 
     {
-        public string Product { get;}
+        public ItemType Product { get; set; }
         public int Quantity { get; set; }
 
-        public Items(string product, int quantity)
+        public Items(ItemType product, int quantity)
         {
             Product = product;
             Quantity = quantity;
@@ -14,7 +16,19 @@ namespace InventoryUpdate.Item
 
         public override string ToString()
         {
-            return $"Product: {Product}, Quantity: {Quantity.ToString()}";
+            return $"Product: {Product.ToString()}, Quantity: {Quantity.ToString()}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            Items newItem;
+            if (obj == null)
+            {
+                return false;
+            }
+            newItem = (Items)obj;
+            return this.Product == newItem.Product;
+
         }
     }
 }
