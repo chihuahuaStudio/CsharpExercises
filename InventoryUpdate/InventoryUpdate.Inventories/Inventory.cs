@@ -9,10 +9,9 @@ namespace InventoryUpdate.Inventories
     
     public class Inventory
     {
-        public List<Items> InventoryList { get; set;}
+        private List<Items> InventoryList { get;}
 
-        
-        public Inventory(List<Items> inventoryList)
+        private Inventory(List<Items> inventoryList)
         {
             InventoryList = inventoryList;
         }
@@ -50,34 +49,29 @@ namespace InventoryUpdate.Inventories
         /// <summary>
         /// Prints the inventory sorted alphabetically
         /// </summary>
-        /// <param name="updatedInventory">The updated inventory to print</param>
-        public static void PrintInventoryByProduct(Inventory updatedInventory)
+        /// <param name="inventory">The inventory to print</param>
+        public static void PrintInventoryByProduct(Inventory inventory)
         {
             IEnumerable<Items> itemsEnumerable = 
-                updatedInventory.InventoryList.OrderBy(x => x.Product);
+                inventory.InventoryList.OrderBy(x => x.Product);
             
             foreach (var product in itemsEnumerable)
             {
                 Console.WriteLine(product);
             }
-
-            // foreach (var item in updatedInventory.InventoryList)
-            // {
-            //     Console.WriteLine(item);
-            // }
+            
         }
 
         /// <summary>
         /// Generates a random inventory without product duplicates
         /// </summary>
         /// <returns>The newly generated Inventory</returns>
-        public static Inventory GenerateInventory()
+        public static Inventory GenerateRandomInventory()
         {
-            List<int> itemTypeRandomValueList = new List<int>();
             List<Items> productList = new List<Items>();
 
             Random randomQuantity = new Random();
-            itemTypeRandomValueList = Tools.GenerateRandomNumberList();
+            List<int> itemTypeRandomValueList = Tools.GenerateRandomNumberList();
 
 
             foreach (var typeValue in itemTypeRandomValueList)

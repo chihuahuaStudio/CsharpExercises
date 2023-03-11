@@ -15,18 +15,11 @@ namespace InventoryUpdate
 {
     class Program
     {
-        
-        private static List<Items> _currentInventoryProductList = new List<Items>();
-        private static List<Items> _newShipmentProductList = new List<Items>();
-
         public static void Main(string[] args)
         {
-            //TODO Must add a function to generate a random inventory with x number of products
-            //TODO Maybe by adding an enum with random products
             
-            
-            Inventory currentInventory = Inventory.GenerateInventory();
-            Inventory newShipment = Inventory.GenerateInventory();
+            Inventory currentInventory = Inventory.GenerateRandomInventory();
+            Inventory newShipment = Inventory.GenerateRandomInventory();
             
             Console.WriteLine("The Current Inventory: ");
             Console.WriteLine("========================================");
@@ -40,10 +33,6 @@ namespace InventoryUpdate
             Console.WriteLine("========================================");
             Inventory.UpdateInventory(ref currentInventory,newShipment );
             Inventory.PrintInventoryByProduct(currentInventory);
-
-
-
-
         }
         
     }
